@@ -21,14 +21,23 @@ public class MainActivity extends AppCompatActivity{
 
     /**
      * 初始化组件
+     * init views
      */
     private void initViews() {
         mRoundProcess = (MyRoundProcess) findViewById(R.id.my_round_process);
+        // 开启动画
         mRoundProcess.runAnimate(90);
     }
 
+    /**
+     * Activity 销毁时，取消动画
+     * (cancel animation when activity destoryed)
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mRoundProcess != null){
+            mRoundProcess.cancelAnimate();
+        }
     }
 }

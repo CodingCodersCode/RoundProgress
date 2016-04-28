@@ -40,6 +40,7 @@ public class MyRoundProcess extends View {
 
 
     private static final String TAG = "MyRoundProcess";
+
     private int mWidth;
     private int mHeight;
 
@@ -80,20 +81,6 @@ public class MyRoundProcess extends View {
     }
 
     /**
-     * 初始化点击事件
-     */
-    private void initClickListener() {
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // 重新开启动画
-                restartAnimate();
-            }
-        });
-    }
-
-    /**
      * 初始化属性
      *
      * @param context
@@ -111,10 +98,28 @@ public class MyRoundProcess extends View {
             textSize = a.getDimension(R.styleable.MyRoundProcess_textSize, 22f);
 
         } finally {
+            // 注意，别忘了 recycle
             a.recycle();
         }
     }
 
+    /**
+     * 初始化点击事件
+     */
+    private void initClickListener() {
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // 重新开启动画
+                restartAnimate();
+            }
+        });
+    }
+
+    /**
+     * 当开始布局时候调用
+     */
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
@@ -182,11 +187,6 @@ public class MyRoundProcess extends View {
         mTextPaint.getTextBounds(text, 0, text.length(), bounds);
         canvas.drawText(text, mWidth / 2 - bounds.width() / 2, mHeight / 2 + bounds.height() / 2, mTextPaint);
 
-        //        int height = bounds.height();
-        //        Log.d(TAG, "onDraw: height: " + height);
-        //        Log.d(TAG, "onDraw: textSize: " + textSize);
-
-
         // 第三步：绘制动态进度圆环
         mPaint.setDither(true);
         mPaint.setStrokeJoin(Paint.Join.BEVEL);
@@ -194,11 +194,10 @@ public class MyRoundProcess extends View {
 
         mPaint.setStrokeWidth(mStrokeWidth);
         mPaint.setColor(roundProgressColor);
-        RectF oval = new RectF(0 + mStrokeWidth / 2, 0 + mStrokeWidth / 2, mWidth - mStrokeWidth / 2, mHeight - mStrokeWidth / 2);
-        //        RectF oval = new RectF(0, 0, mWidth, mHeight);
+        RectF oval = new RectF(0 + mStrokeWidth / 2, 0 + mStrokeWidth / 2,
+                mWidth - mStrokeWidth / 2, mHeight - mStrokeWidth / 2);
 
         canvas.drawArc(oval, 0, progress / maxProgress * 360, false, mPaint);
-        //        canvas.drawArc(oval, 200f, 30f, false, mPaint);
     }
 
     /**
@@ -213,15 +212,6 @@ public class MyRoundProcess extends View {
             // 重新开启动画
             runAnimate(mLastProgress);
         }
-    }
-
-    /**
-     * 当从 window 中移除时调用
-     */
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-
     }
 
     /**
