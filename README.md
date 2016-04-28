@@ -22,11 +22,18 @@
 ```
 
 属性：
+
 textSize 百分数的尺寸
+
 textColor 百分数的尺寸
+
 roundColor 圆环的颜色
+
 roundProgressColor 圆弧的颜色
 
 方法：
+
 setProgress(float progress) 设置显示指定百分比
+
 runAnimate(float targetProgress) 从 0 开始渐进显示到指定百分比
+
